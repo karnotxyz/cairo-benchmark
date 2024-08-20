@@ -1,20 +1,13 @@
-#[starknet::interface]
-pub trait IBenchmark<TContractState> {
-    fn hash_recursively(ref self: TContractState, data: Array<u8>, loop_count: u256) -> Array<u8>;
-    fn create_inventories(ref self: TContractState, loop_count: u256);
-    fn update_inventories(ref self: TContractState, loop_count: u256);
-    fn do_all(ref self: TContractState, loop_count: u256);
-}
-
-
 #[starknet::contract]
-mod Benchmark {
+mod BenchmarkContract {
     use core::serde::Serde;
-    use benchmark::benchmark::IBenchmark;
     use core::option::OptionTrait;
     use core::traits::Into;
     use core::clone::Clone;
     use alexandria_math::sha256::sha256;
+    use benchmark_tests::interfaces::{
+        IBenchmark::IBenchmark, ISister::{ISister, ISisterDispatcher, ISisterDispatcherTrait}
+    };
 
     #[derive(Drop, Serde, Clone, starknet::Store)]
     struct Article {
@@ -50,11 +43,12 @@ mod Benchmark {
     #[storage]
     struct Storage {
         inventories: LegacyMap::<u256, Inventory>,
+        depth: u256
     }
 
 
     #[abi(embed_v0)]
-    impl BenchmarkImpl of super::IBenchmark<ContractState> {
+    impl BenchmarkImpl of IBenchmark<ContractState> {
         fn hash_recursively(
             ref self: ContractState, data: Array<u8>, loop_count: u256
         ) -> Array<u8> {
@@ -116,6 +110,24 @@ mod Benchmark {
                 };
                 self.inventories.write(index, new_inventory);
             }
+        }
+
+        fn nested_contract_call(
+            ref self: ContractState, sister_contract_address: ContractAddress, loop_count: u256
+        ) {
+            self.depth.write(loop_count);
+            self.reply(sister_contract_address);
+        }
+
+        fn reply(ref self: ContractState, sister_contract_address: ContractAddress) {
+            let current_depth = self.depth.read();
+            if (current_depth == 0) {
+                return;
+            }
+            self.depth.write(current_depth - 1);
+
+            let sister_dispatcher = ISisterDispatcher { contract_address: sister_contract_address };
+            sister_dispatcher.call_me_back();
         }
 
         fn do_all(ref self: ContractState, loop_count: u256) {

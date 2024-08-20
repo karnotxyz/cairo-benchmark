@@ -35,7 +35,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "benchmark"
+name = "benchmark_tests"
 version = "0.1.0"
 dependencies = [
  "alexandria_math",
