@@ -9,6 +9,8 @@ pub trait IBenchmark<TContractState> {
 
 #[starknet::contract]
 mod Benchmark {
+    use core::serde::Serde;
+    use benchmark::benchmark::IBenchmark;
     use core::option::OptionTrait;
     use core::traits::Into;
     use core::clone::Clone;
@@ -114,6 +116,13 @@ mod Benchmark {
                 };
                 self.inventories.write(index, new_inventory);
             }
+        }
+
+        fn do_all(ref self: ContractState, loop_count: u256) {
+            let mut data = array!['h', 'a', 's', 'h', 't', 'h', 'i', 's', 'd', 'a', 't', 'a'];
+            self.hash_recursively(data, loop_count);
+            self.create_inventories(loop_count);
+            self.update_inventories(loop_count);
         }
     }
 }
