@@ -1,6 +1,6 @@
 
 #### Adding accounts
-- Run this command to add an account, or add an account and add it as profile in the `.snfoundry.toml`
+- Run this command to add an account, or add an account and add it as profile in the `snfoundry.toml`
 ```shell
 sncast --url "https://starknet-sepolia.public.blastapi.io/rpc/v0_7" account add --name braavosDev --address <ADDRESS> --private-key <PRIVATE_KEY> --type braavos --add-profile development
 ```
@@ -22,7 +22,7 @@ sncast --url "https://starknet-sepolia.public.blastapi.io/rpc/v0_7" account list
 ```
 
 ## Deploying the contracts
-Make sure you have already added an account as profile first in the `.snfoundry.toml`
+Make sure you have already added an account as profile first in the `snfoundry.toml`
 ```shell
 make deploy
 ```
