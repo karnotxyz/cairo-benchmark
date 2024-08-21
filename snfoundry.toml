@@ -8,3 +8,8 @@ url = "https://starknet-sepolia.public.blastapi.io/rpc/v0_7"
 account = "braavosDev"
 accounts-file = "/Users/bytezorvin/.starknet_accounts/starknet_open_zeppelin_accounts.json"
 url = "http://0.0.0.0:5050"
+
+[sncast.kkrt_staging_dev]
+account = "kkrt_dev"
+accounts-file = "/Users/apoorvsadana/.starknet_accounts/starknet_open_zeppelin_accounts.json"
+url = "https://juno-stage-remote-db.karnot.xyz"

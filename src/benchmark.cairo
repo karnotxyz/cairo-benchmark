@@ -19,8 +19,8 @@ mod BenchmarkContract {
 
     #[derive(Drop, Serde, Clone, starknet::Store)]
     struct ArticleAttributes {
-        durability: u8,
-        weight: u16,
+        durability: u32,
+        weight: u32,
     }
 
     #[derive(Drop, Serde, Clone, starknet::Store)]
@@ -130,11 +130,14 @@ mod BenchmarkContract {
             sister_dispatcher.call_me_back();
         }
 
-        fn do_all(ref self: ContractState, loop_count: u256) {
+        fn do_all(
+            ref self: ContractState, sister_contract_address: ContractAddress, loop_count: u256
+        ) {
             let mut data = array!['h', 'a', 's', 'h', 't', 'h', 'i', 's', 'd', 'a', 't', 'a'];
             self.hash_recursively(data, loop_count);
             self.create_inventories(loop_count);
             self.update_inventories(loop_count);
+            self.nested_contract_call(sister_contract_address, loop_count);
         }
     }
 }
