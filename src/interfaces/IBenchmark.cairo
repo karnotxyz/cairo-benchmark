@@ -8,6 +8,6 @@ pub trait IBenchmark<TContractState> {
         ref self: TContractState, sister_contract_address: ContractAddress, loop_count: u256
     );
     fn reply(ref self: TContractState, sister_contract_address: ContractAddress);
-    fn do_all(ref self: TContractState, loop_count: u256);
+    fn do_all(ref self: TContractState, sister_contract_address: ContractAddress, loop_count: u256);
 }
 

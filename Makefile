@@ -4,7 +4,7 @@
 # Usage: $(call declare_contract,contract_name,package_name)
 define declare_contract
 	@echo "Declaring contract $(1) from package $(2)..."
-	@sncast --profile development declare --fee-token eth --contract-name $(1) --package $(2) 2>/dev/null
+	@sncast --profile kkrt_staging_dev declare --fee-token eth --contract-name $(1) --package $(2) 2>/dev/null
 endef
 
 
@@ -14,7 +14,7 @@ define deploy_contract
 	@echo "Deploying contract $(1) from package $(2)..."
   $(eval CLASS_HASH := $(shell starkli class-hash $(3) 2>/dev/null))
   @echo "Deploying contract with class hash: $(CLASS_HASH)"
-  @sncast --profile development deploy --class-hash $(CLASS_HASH) --fee-token eth
+  @sncast --profile kkrt_staging_dev deploy --class-hash $(CLASS_HASH) --fee-token eth
 	@echo "Contract $(1) successfully deployed ✅ "
 endef
 
